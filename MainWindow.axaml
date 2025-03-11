@@ -5,5 +5,38 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="planer_dnia.MainWindow"
         Title="planer_dnia">
-    Welcome to Avalonia!
+  <Grid HorizontalAlignment="Center">
+      <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      
+      <TextBlock Grid.Row="0" Grid.Column="0" Text="Wpisz nazwe zadanie:"
+                 HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+      <TextBox Grid.Row="0" Grid.Column="1" Width="150" 
+               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"/>
+      
+      <TextBlock Grid.Row="1" Grid.Column="0" Text="Wybierz kategorie:"
+                 HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+      <ComboBox Grid.Row="1" Grid.Column="1" Width="150"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+          <ComboBoxItem Content="Praca"/>
+          <ComboBoxItem Content="Rozrywka"/>
+          <ComboBoxItem Content="Relaks"/>
+          <ComboBoxItem Content="Edukacja"/>
+          <ComboBoxItem Content="Zakupy"/>
+      </ComboBox>
+      
+      <Button Grid.Row="2" Grid.Column="1" Content="Dodaj zadanie" 
+              HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+      
+      
+      
+  </Grid>
 </Window>
