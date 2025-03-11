@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
 using Avalonia;
@@ -13,23 +14,28 @@ public partial class MainWindow : Window
 {
     private TextBox _zadanie;
     private ComboBox _kategoria;
-    private int _row = 3;
+    private int _row = 4;
     private Grid _grid;
     private int _kategoriaIndex;
     private int _tak = 0;
     private CheckBox _checkBox;
     private string _className;
+    private TextBlock _podsumowanie;
+    private TextBlock _podsumowanieText;
+    private int _zadania = 0;
     public MainWindow()
     {
         InitializeComponent();
         _zadanie = this.FindControl<TextBox>("Zadanie");
         _kategoria = this.FindControl<ComboBox>("Kategoria");
         _grid = this.FindControl<Grid>("Grid");
-        
+        _podsumowanie = this.FindControl<TextBlock>("Podsumowanie");
+        _podsumowanieText = this.FindControl<TextBlock>("PodsumowanieText");
     }
 
     private void DodajZadanie(object? sender, RoutedEventArgs e)
     {
+        _zadania++;
         _className = _zadanie.Text;
         var rowDefinition = new RowDefinition
         {
@@ -45,7 +51,7 @@ public partial class MainWindow : Window
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
             FontWeight = FontWeight.Bold,
-            [Grid.RowProperty] = _row,
+            [Grid.RowProperty] = _row-1,
             [Grid.ColumnProperty] = 0,
             Margin = new Thickness(5)
         };
@@ -78,7 +84,7 @@ public partial class MainWindow : Window
             Items = { "Praca", "Rozrywka", "Relaks", "Edukacja", "Zakupy" },
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
-            [Grid.RowProperty] = _row,
+            [Grid.RowProperty] = _row-1,
             [Grid.ColumnProperty] = 1,
             Margin = new Thickness(5)
         };
@@ -91,21 +97,17 @@ public partial class MainWindow : Window
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
             FontWeight = FontWeight.Bold,
-            [Grid.RowProperty] = _row,
+            [Grid.RowProperty] = _row-1,
             [Grid.ColumnProperty] = 2,
             Margin = new Thickness(5)
         };
         
-        _checkBox.IsCheckedChanged += (sender, e) =>
-        {
-            Ukonczone(sender, e); // wywołanie Ukonczone() za każdym razem, gdy stan CheckBox się zmienia
-        };
 
         var usun = new Button
         {
             Name = _className,
             Classes = { _className },
-            [Grid.RowProperty] = _row,
+            [Grid.RowProperty] = _row-1,
             [Grid.ColumnProperty] = 3,
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
@@ -118,19 +120,27 @@ public partial class MainWindow : Window
         _grid.Children.Add(comboBox);
         _grid.Children.Add(_checkBox);
         _grid.Children.Add(usun);
+
+        Wyswietl();
         
         _row++;
     }
 
-    private void Ukonczone(object? sender, RoutedEventArgs e)
+    private void Wyswietl()
     {
-        _checkBox.IsCheckedChanged += (sender, e) =>
-        {
-            _checkBox.Margin = new Thickness(50);
-        };
-
+        var podsumowanieText = "Ilość zadań: \n" + "Ukończone: ";
+        _podsumowanieText.Text = podsumowanieText;
+        Grid.SetRow(_podsumowanieText, _row);
+        Grid.SetColumn(_podsumowanieText, 1);
+        _podsumowanieText.IsVisible = true;
+        
+        Grid.SetRow(_podsumowanie, _row);
+        Grid.SetColumn(_podsumowanie, 2);
+        var text = $"{_zadania} \n {_tak}";
+        _podsumowanie.Text = text;
+        
     }
-
+    
     private void UsunZadanie(object? sender, RoutedEventArgs e)
     {
         var button = sender as Button;
@@ -144,5 +154,9 @@ public partial class MainWindow : Window
         {
             _grid.Children.Remove(element);
         }
+
+        _zadania--;
+        Wyswietl();
     }
+    
 }

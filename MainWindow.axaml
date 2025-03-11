@@ -10,6 +10,9 @@
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="Auto"/>
+
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto"/>
@@ -39,5 +42,9 @@
       <Button Click="DodajZadanie" Grid.Row="2" Grid.Column="2" Content="Dodaj zadanie" 
               HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
       
+      <TextBlock Name="PodsumowanieText" IsVisible="False"
+                 HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+      <TextBlock x:Name="Podsumowanie" Margin="5"
+                 HorizontalAlignment="Left" VerticalAlignment="Center"/>
   </Grid>
 </Window>
