@@ -99,9 +99,25 @@ public partial class MainWindow : Window
             FontWeight = FontWeight.Bold,
             [Grid.RowProperty] = _row-1,
             [Grid.ColumnProperty] = 2,
-            Margin = new Thickness(5)
+            Margin = new Thickness(5),
+            Name = _className
         };
-        
+
+        _checkBox.IsCheckedChanged += (sender, e) =>
+        {
+            if (sender is CheckBox checkBox)
+            {
+                if(checkBox.IsChecked == true)
+                {
+                    _tak++;
+                }
+                else
+                {
+                    _tak--;
+                }
+                Wyswietl();
+            }
+        };
 
         var usun = new Button
         {
@@ -136,7 +152,7 @@ public partial class MainWindow : Window
         
         Grid.SetRow(_podsumowanie, _row);
         Grid.SetColumn(_podsumowanie, 2);
-        var text = $"{_zadania} \n {_tak}";
+        var text = $"{_zadania} \n" + $"{_tak}";
         _podsumowanie.Text = text;
         
     }
@@ -150,13 +166,25 @@ public partial class MainWindow : Window
             .Where(c => c.Classes.Contains(className))
             .ToList();
         
+        var checkBoxRemove = _grid.Children
+            .OfType<CheckBox>()
+            .FirstOrDefault(c => c.Name == className);
+        
+        if (checkBoxRemove.IsChecked == true)
+        {
+            _tak--;
+        }
+        
         foreach (var element in elementyDoUsuniecia)
         {
             _grid.Children.Remove(element);
         }
 
         _zadania--;
+        
         Wyswietl();
     }
+
+    
     
 }
